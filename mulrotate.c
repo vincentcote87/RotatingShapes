@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <GL/gl.h>   // OpenGL itself.
-#include <GL/glu.h>  // GLU support library.
-#include <GL/glut.h> // GLUT support library.
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 
 int windowWidth = 800;
 int windowHeight = 800;
@@ -12,6 +12,7 @@ float cubeAngle = 0.0;
 float sphereAngle = 0.0;
 float eyeX = 0.0;
 float eyeY = 0.0;
+
 // 1 for spin, 0 for no spin
 // order is pyramid, cube, spere
 int spin[] = {1,1,1};
@@ -31,12 +32,12 @@ void display(void) {
               0.0, 0.0, 0.0,
               0.0, 1.0, 0.0);
 
+    // Pyramid
     glPushMatrix();
     glTranslatef(0.0, 0.0, -1.0);
     if (spin[0])
         pyrAngle = spinIt(pyrAngle);
     glRotatef(pyrAngle, 0.0, 1.0, 0.0);
-
     glBegin(GL_TRIANGLES);
     // front face
         glColor3f(0.75, 0.4, .35);
@@ -64,6 +65,8 @@ void display(void) {
 
     glEnd();
     glPopMatrix();
+
+    // Cube
     glPushMatrix();
     glTranslatef(0.0, 0.0, -3.0);
     if (spin[1])
@@ -113,16 +116,15 @@ void display(void) {
         glVertex3f(0.5, 0.0, 0.5);
 
     glEnd();
-
     glPopMatrix();
 
+    // Sphere
     glTranslatef(3.0, -1.0, -3.5);
     if (spin[2])
         sphereAngle = spinIt(sphereAngle);
     glRotatef(sphereAngle, 0.0, 0.0, 1.0);
     glColor3f(0.5, 0.8, .35);
     glutSolidSphere(0.5, 20, 20);
-    // glPushMatrix();
 
     glutSwapBuffers();
 }
@@ -131,12 +133,10 @@ void reshape(int w, int h) {
     if (h == 0)
         h = 1;
     glViewport(0, 0, w, h);
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 20);
     glMatrixMode(GL_MODELVIEW);
-
     windowWidth = w;
     windowHeight = h;
 }
@@ -157,22 +157,22 @@ void changeEye(float x, float y) {
 }
 
 void mouse(int button, int state, int x, int y) {
-   switch (button) {
-      case GLUT_LEFT_BUTTON:
-         if (state == GLUT_DOWN)
-            changeEye(-5.0,5.0);
-         if (state == GLUT_UP)
-            changeEye(0.0,0.0);
-         break;
-      case GLUT_MIDDLE_BUTTON:
-      case GLUT_RIGHT_BUTTON:
-         if (state == GLUT_DOWN)
-            changeEye(5.0,5.0);
-         if (state == GLUT_UP)
-            changeEye(0.0,0.0);
-         break;
-      default:
-         break;
+    switch (button) {
+        case GLUT_LEFT_BUTTON :
+            if (state == GLUT_DOWN)
+                changeEye(-5.0,5.0);
+            if (state == GLUT_UP)
+                changeEye(0.0,0.0);
+            break;
+        case GLUT_MIDDLE_BUTTON :
+        case GLUT_RIGHT_BUTTON :
+            if (state == GLUT_DOWN)
+                changeEye(5.0,5.0);
+            if (state == GLUT_UP)
+                changeEye(0.0,0.0);
+            break;
+        default:
+            break;
    }
 }
 
